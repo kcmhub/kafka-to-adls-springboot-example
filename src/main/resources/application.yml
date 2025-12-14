@@ -1,0 +1,25 @@
+spring:
+  kafka:
+    listener:
+      type: batch
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      max-poll-records: 2
+      group-id: ${KAFKA_CONSUMER_GROUP_ID:kcm-adls-consumer-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+app:
+  kafka:
+    topic: adls-input-topic
+
+  adls:
+    # nom du compte ADLS
+    account-name: ${ADLS_ACCOUNT_NAME:dd90021adl01}
+    # nom du filesystem (container)
+    filesystem: ${ADLS_FILESYSTEM_NAME:kafka-poc}
+    # chemin "racine" dans le container
+    base-path: ${ADLS_BASE_PATH:kafka-export}
+    # SAS complet (attention à ne pas le committer)
+    sas-token: ${ADLS_SAS_TOKEN:?ADLS_SAS_TOKEN environment variable not set}
